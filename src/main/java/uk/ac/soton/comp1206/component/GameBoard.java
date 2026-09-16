@@ -1,11 +1,17 @@
 package uk.ac.soton.comp1206.component;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.event.BlockClickedListener;
+import uk.ac.soton.comp1206.event.BlockHoveredListener;
+import uk.ac.soton.comp1206.event.RightClickedListener;
 import uk.ac.soton.comp1206.game.Grid;
+
+import java.util.Set;
 
 /**
  * A GameBoard is a visual component to represent the visual GameBoard.
@@ -56,7 +62,16 @@ public class GameBoard extends GridPane {
      */
     private BlockClickedListener blockClickedListener;
 
+    /**
+     * The listener to call when a specific block is hovered over
+     */
+    private BlockHoveredListener blockHoveredListener;
 
+
+    /**
+     * The listener to call when a specific block is right-clicked
+     */
+    private RightClickedListener rightClickedListener;
     /**
      * Create a new GameBoard, based off a given grid, with a visual width and height.
      * @param grid linked grid
@@ -70,12 +85,14 @@ public class GameBoard extends GridPane {
         this.height = height;
         this.grid = grid;
 
+        //Link the GameBlock component to the corresponding value in the Grid
+
         //Build the GameBoard
         build();
     }
 
     /**
-     * Create a new GameBoard with it's own internal grid, specifying the number of columns and rows, along with the
+     * Create a new GameBoard with its own internal grid, specifying the number of columns and rows, along with the
      * visual width and height.
      *
      * @param cols number of columns for internal grid
@@ -128,6 +145,7 @@ public class GameBoard extends GridPane {
      * Create a block at the given x and y position in the GameBoard
      * @param x column
      * @param y row
+     * @return returns the game block that was created.
      */
     protected GameBlock createBlock(int x, int y) {
         var blockWidth = width / cols;
@@ -146,9 +164,49 @@ public class GameBoard extends GridPane {
         block.bind(grid.getGridProperty(x,y));
 
         //Add a mouse click handler to the block to trigger GameBoard blockClicked method
-        block.setOnMouseClicked((e) -> blockClicked(e, block));
+        block.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                blockClicked(event,block);
+            }
+        });
+
+        block.setOnMouseEntered(event -> {
+            blockHovered(event,block);
+        });
 
         return block;
+    }
+
+    /**
+     * Called when a block on the board is hovered.
+     * @param event the mouse event
+     * @param block the block that was hovered over
+     */
+    private void blockHovered(MouseEvent event, GameBlock block) {
+        if(blockHoveredListener != null) {
+            blockHoveredListener.blockHovered(block);
+        }
+    }
+
+    /**
+     * For a gameBoard, if it gets right-clicked on, it should rotate the piece.
+     */
+    public void rotationHandler() {
+        setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                RightClicked(event);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param toClearBlocks the set of blocks to call the fadeout animation for.
+     */
+    public void fadeOut(Set<GameBlockCoordinate> toClearBlocks) {
+        for(GameBlockCoordinate block : toClearBlocks) {
+                getBlock(block.getX(),block.getY()).fadeOut();
+        }
     }
 
     /**
@@ -157,6 +215,22 @@ public class GameBoard extends GridPane {
      */
     public void setOnBlockClick(BlockClickedListener listener) {
         this.blockClickedListener = listener;
+    }
+
+    /**
+     * Set the listener to handle an event when a block is hovered over
+     * @param listener listener to add
+     */
+    public void setOnBlockHover(BlockHoveredListener listener) {
+        this.blockHoveredListener = listener;
+    }
+
+    /**
+     * Set the listener to handle an event when a block is right-clicked
+     * @param listener listener to add
+     */
+    public void setOnRightClicked(RightClickedListener listener) {
+        this.rightClickedListener = listener;
     }
 
     /**
@@ -169,6 +243,18 @@ public class GameBoard extends GridPane {
 
         if(blockClickedListener != null) {
             blockClickedListener.blockClicked(block);
+        }
+    }
+
+    /**
+     * Triggered when a block is right-clicked. Call the attached listener.
+     * @param event mouse event
+     */
+    public void RightClicked(MouseEvent event) {
+        logger.info("Board right-clicked");
+
+        if(rightClickedListener != null) {
+            rightClickedListener.RightClicked();
         }
     }
 

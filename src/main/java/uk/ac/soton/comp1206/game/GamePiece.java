@@ -186,28 +186,47 @@ public class GamePiece {
      */
     public void rotate(int rotations) {
         for(int rotated = 0; rotated < rotations; rotated ++) {
-            rotate();
+            rotate(false);
         }
     }
 
     /**
-     * Rotate this piece exactly once by rotating it's 3x3 grid
+     * Rotate this piece exactly once by rotating its 3x3 grid
+     * @param rotateLeft whether to rotate to the left, otherwise will rotate right.
      */
-    public void rotate() {
+    public void rotate(boolean rotateLeft) {
         int[][] rotated = new int[blocks.length][blocks[0].length];
-        rotated[2][0] = blocks[0][0];
-        rotated[1][0] = blocks[0][1];
-        rotated[0][0] = blocks[0][2];
 
-        rotated[2][1] = blocks[1][0];
-        rotated[1][1] = blocks[1][1];
-        rotated[0][1] = blocks[1][2];
+        //rotates either left or right
+        if (!rotateLeft) {
+            rotated[2][0] = blocks[0][0];
+            rotated[1][0] = blocks[0][1];
+            rotated[0][0] = blocks[0][2];
 
-        rotated[2][2] = blocks[2][0];
-        rotated[1][2] = blocks[2][1];
-        rotated[0][2] = blocks[2][2];
+            rotated[2][1] = blocks[1][0];
+            rotated[1][1] = blocks[1][1];
+            rotated[0][1] = blocks[1][2];
 
-        blocks = rotated;
+            rotated[2][2] = blocks[2][0];
+            rotated[1][2] = blocks[2][1];
+            rotated[0][2] = blocks[2][2];
+
+            blocks = rotated;
+        } else {
+            rotated[0][2] = blocks[0][0];
+            rotated[1][2] = blocks[0][1];
+            rotated[2][2] = blocks[0][2];
+
+            rotated[0][1] = blocks[1][0];
+            rotated[1][1] = blocks[1][1];
+            rotated[2][1] = blocks[1][2];
+
+            rotated[0][0] = blocks[2][0];
+            rotated[1][0] = blocks[2][1];
+            rotated[2][0] = blocks[2][2];
+
+            blocks = rotated;
+        }
     }
 
 

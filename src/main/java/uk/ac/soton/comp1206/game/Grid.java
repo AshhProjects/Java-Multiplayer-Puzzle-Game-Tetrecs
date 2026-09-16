@@ -2,6 +2,8 @@ package uk.ac.soton.comp1206.game;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The Grid is a model which holds the state of a game board. It is made up of a set of Integer values arranged in a 2D
@@ -12,9 +14,12 @@ import javafx.beans.property.SimpleIntegerProperty;
  *
  * The Grid contains functions related to modifying the model, for example, placing a piece inside the grid.
  *
- * The Grid should be linked to a GameBoard for it's display.
+ * The Grid should be linked to a GameBoard for its display.
  */
 public class Grid {
+
+    private static final Logger logger = LogManager.getLogger(Grid.class);
+
 
     /**
      * The number of columns in this grid
@@ -61,6 +66,7 @@ public class Grid {
         return grid[x][y];
     }
 
+
     /**
      * Update the value at the given x and y index within the grid
      * @param x column
@@ -69,6 +75,71 @@ public class Grid {
      */
     public void set(int x, int y, int value) {
         grid[x][y].set(value);
+    }
+
+    /**
+     * Checks if a piece can be played at the X and Y that's given
+     * @param piece the piece to check against if it can be played.
+     * @param placeX The X axis on the grid to check if the piece can be played there.
+     * @param placeY The Y axis on the grid to check if the piece can be played there.
+     * @return returns true/false depending if the piece can be played.
+     */
+    public boolean canPlayPiece(GamePiece piece, int placeX, int placeY) {
+        logger.info("Checks if we can play the piece {} at {},{}",piece,placeX,placeY);
+        int[][] blocks = piece.getBlocks();
+
+        int topX = placeX - 1;
+        int topY = placeY - 1;
+        for (var blockX = 0; blockX < blocks.length; blockX++) {
+            for (var blockY = 0; blockY < blocks.length; blockY++) {
+                //blockX and a blockY coordinate inside the blocks 3x3 array
+                var blockValue = blocks[blockX][blockY];
+                if (blockValue > 0) {
+                    //Check if we can place on our grid
+                    var gridValue = get(topX + blockX, topY + blockY);
+
+                    if (gridValue != 0) {
+                        logger.info("Unable to place piece at {}{}, there's conflict",placeX,placeY);
+                        return false;
+                    }
+
+
+                }
+            }
+        }
+        //Nothing in the way
+        return true;
+    }
+
+    /**
+     * Places the piece into the grid at the x,y coordinates
+     * @param piece the game to place into the grid.
+     * @param placeX the x coordinate to put the piece on.
+     * @param placeY the y coordinate to put the piece on.
+     */
+    public void playPiece(GamePiece piece, int placeX, int placeY) {
+
+        logger.info("Plays the piece {} at {},{}",piece,placeX,placeY);
+
+        int topX = placeX - 1;
+        int topY = placeY - 1;
+
+        int colour = piece.getValue();
+        int[][] blocks = piece.getBlocks();
+
+        //if we can't play piece, returns
+        if (!canPlayPiece(piece,placeX,placeY)) return;
+
+        for (var blockX = 0; blockX < blocks.length; blockX++) {
+            for (var blockY = 0; blockY < blocks.length; blockY++) {
+                //blockX and a blockY coordinate inside the blocks 3x3 array
+                var blockValue = blocks[blockX][blockY];
+                if (blockValue > 0) {
+                    set(topX + blockX,topY + blockY,colour);
+                }
+            }
+        }
+
     }
 
     /**

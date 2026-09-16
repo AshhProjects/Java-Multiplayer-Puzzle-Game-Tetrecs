@@ -10,9 +10,20 @@ import uk.ac.soton.comp1206.ui.GameWindow;
  */
 public abstract class BaseScene {
 
+
+    /**
+     * The game window which the entire game will be displayed in.
+     */
     protected final GameWindow gameWindow;
 
+    /**
+     * the root pane used to show the UI.
+     */
     protected GamePane root;
+
+    /**
+     * The actual scene of the window. Uses a node, width and height and background colour to set the scene.
+     */
     protected Scene scene;
 
     /**

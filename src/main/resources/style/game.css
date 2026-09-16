@@ -7,12 +7,27 @@
 }
 
 .menu-background {
-    -fx-background-image: url("../images/1.jpg");
+    -fx-background-image: url("../images/TetrecsTitleBG.png");
     -fx-background-size: cover;
 }
 
 .challenge-background {
-    -fx-background-image: url("../images/2.jpg");
+    -fx-background-image: url("../images/game-screen.png");
+    -fx-background-size: cover;
+}
+
+.game-background-effect {
+    -fx-background-image: url("../images/filter.png");
+    -fx-background-size: cover;
+}
+
+.game-background-effect2 {
+    -fx-background-image: url("../images/filter2.png");
+    -fx-background-size: cover;
+}
+
+.empty-screen {
+    -fx-background-image: url("../images/emptyscreen.png");
     -fx-background-size: cover;
 }
 
@@ -21,26 +36,36 @@
 }
 
 .menuItem {
-    -fx-fill: white;
-    -fx-font-family: 'Orbitron';
+    -fx-text-fill: white;
+    -fx-font-family: 'ChunkyDunk';
     -fx-font-size: 32px;
     -fx-font-weight: 700;
+    -fx-border-color: transparent;
+    -fx-stroke: black;
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.menuItem:hover {
+    -fx-text-fill: yellow;
+}
+
+.menuItem.selected {
+    -fx-text-fill: yellow;
+}
+
+.counter {
+    -fx-font-family: 'ChunkyDunk';
+    -fx-font-size: 80px;
+    -fx-font-weight: 900;
     -fx-border-color: black;
     -fx-stroke: black;
     -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
 }
 
-.menuItem:hover {
-    -fx-fill: yellow;
-}
-
-.menuItem.selected {
-    -fx-fill: yellow;
-}
-
 .bigtitle {
     -fx-fill: yellow;
-    -fx-font-family: 'Orbitron';
+    -fx-font-family: 'ChunkyDunk';
     -fx-font-size: 64px;
     -fx-font-weight: 900;
     -fx-border-color: black;
@@ -50,8 +75,8 @@
 
 .title {
     -fx-fill: white;
-    -fx-font-family: 'Orbitron';
-    -fx-font-size: 32px;
+    -fx-font-family: 'ChunkyDunk';
+    -fx-font-size: 40px;
     -fx-font-weight: 900;
     -fx-border-color: black;
     -fx-stroke: black;
@@ -60,7 +85,17 @@
 
 .heading {
     -fx-fill: white;
-    -fx-font-family: 'Orbitron';
+    -fx-font-family: 'ChunkyDunk';
+    -fx-font-size: 30px;
+    -fx-font-weight: 700;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.rightmenu {
+    -fx-fill: white;
+    -fx-font-family: 'ChunkyDunk';
     -fx-font-size: 20px;
     -fx-font-weight: 700;
     -fx-border-color: black;
@@ -70,8 +105,19 @@
 
 .score {
     -fx-fill: yellow;
-    -fx-font-family: 'Orbitron';
-    -fx-font-size: 36px;
+    -fx-font-family: 'ChunkyDunk';
+    -fx-font-size: 28px;
+    -fx-font-weight: 700;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-text-alignment: center;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.multiplier {
+    -fx-fill: #54F05B;
+    -fx-font-family: 'ChunkyDunk';
+    -fx-font-size: 28px;
     -fx-font-weight: 700;
     -fx-border-color: black;
     -fx-stroke: black;
@@ -81,8 +127,8 @@
 
 .level {
     -fx-fill: #ff6600;
-    -fx-font-family: 'Orbitron';
-    -fx-font-size: 24px;
+    -fx-font-family: 'ChunkyDunk';
+    -fx-font-size: 28px;
     -fx-font-weight: 700;
     -fx-border-color: black;
     -fx-stroke: black;
@@ -92,8 +138,8 @@
 
 .hiscore {
     -fx-fill: orange;
-    -fx-font-family: 'Orbitron';
-    -fx-font-size: 24px;
+    -fx-font-family: 'ChunkyDunk';
+    -fx-font-size: 28px;
     -fx-font-weight: 700;
     -fx-border-color: black;
     -fx-stroke: black;
@@ -103,8 +149,8 @@
 
 .lives {
     -fx-fill: yellow;
-    -fx-font-family: 'Orbitron';
-    -fx-font-size: 36px;
+    -fx-font-family: 'ChunkyDunk';
+    -fx-font-size: 28px;
     -fx-font-weight: 700;
     -fx-border-color: black;
     -fx-stroke: black;
@@ -114,7 +160,7 @@
 
 .scorelist {
     -fx-font-size: 20px;
-    -fx-font-family: 'Orbitron';
+    -fx-font-family: 'ChunkyDunk';
 }
 
 .scoreitem {
@@ -142,7 +188,7 @@
 
 .channelItem {
     -fx-fill: white;
-    -fx-font-family: 'Orbitron';
+    -fx-font-family: 'ChunkyDunk';
     -fx-font-size: 16px;
     -fx-font-weight: 700;
     -fx-border-color: black;
@@ -150,6 +196,13 @@
 }
 .channelItem.selected {
     -fx-fill: yellow;
+}
+
+.error {
+        -fx-fill: red;
+        -fx-font-family: 'ChunkyDunkOutlin';
+        -fx-font-size: 20px;
+        -fx-font-weight: 700;
 }
 
 .leaderboard {
@@ -165,6 +218,7 @@
 
 .scroller {
     -fx-background-color: transparent;
+    -fx-background: transparent;
 }
 
 .scroller .viewport {
@@ -173,8 +227,8 @@
 
 .messages {
     -fx-background-color: transparent;
-    -fx-font-size: 12px;
-    -fx-font-family: 'Orbitron';
+    -fx-font-size: 18px;
+    -fx-font-family: 'ChunkyDunk';
 }
 
 .messages Text {
@@ -191,7 +245,7 @@ TextField {
 
 .playerBox {
     -fx-font-size: 14px;
-    -fx-font-family: 'Orbitron';
+    -fx-font-family: 'ChunkyDunk';
 }
 
 .playerBox Text {
@@ -199,11 +253,56 @@ TextField {
 }
 
 .myname {
-    -fx-font-weight: 700;
+    -fx-fill: yellow;
 }
 
 .instructions {
     -fx-font-size: 10px;
-    -fx-font-family: 'Orbitron';
+    -fx-font-family: 'ChunkyDunk';
     -fx-fill: white;
+}
+
+.credits {
+    -fx-fill: white;
+    -fx-font-family: 'ChunkyDunk';
+    -fx-font-size: 30px;
+    -fx-font-weight: 700;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.sound-slider {
+  -fx-pref-width: 200px;
+  -fx-min-height: 30px;
+  -fx-max-height: 30px;
+  -fx-background-color: #343434;
+  -fx-background-insets: 0, 1, 2;
+  -fx-background-radius: 5;
+  -fx-border-color: #343434;
+  -fx-border-width: 3px;
+  -fx-border-radius: 5;
+}
+
+.sound-slider .thumb {
+  -fx-background-color: #ffcc00;
+  -fx-background-insets: 0, 0.2;
+  -fx-background-radius: 0%;
+  -fx-border-color: #000000;
+  -fx-border-width: 2px;
+  -fx-border-radius: 0%;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 5, 0, 0, 1);
+}
+
+.sound-slider .track {
+  -fx-background-color: #343434;
+}
+
+.sound-slider .track-background {
+  -fx-background-color: #ffcc00;
+  -fx-background-insets: 0, 1, 2;
+  -fx-background-radius: 5;
+  -fx-border-color: #000000;
+  -fx-border-width: 2px;
+  -fx-border-radius: 5;
 }

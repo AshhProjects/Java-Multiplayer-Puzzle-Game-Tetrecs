@@ -1,14 +1,17 @@
 package uk.ac.soton.comp1206.ui;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleListProperty;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.App;
+import uk.ac.soton.comp1206.Multimedia;
 import uk.ac.soton.comp1206.network.Communicator;
 import uk.ac.soton.comp1206.scene.*;
 
@@ -22,15 +25,11 @@ import uk.ac.soton.comp1206.scene.*;
 public class GameWindow {
 
     private static final Logger logger = LogManager.getLogger(GameWindow.class);
-
     private final int width;
     private final int height;
-
     private final Stage stage;
-
     private BaseScene currentScene;
     private Scene scene;
-
     final Communicator communicator;
 
     /**
@@ -42,6 +41,7 @@ public class GameWindow {
     public GameWindow(Stage stage, int width, int height) {
         this.width = width;
         this.height = height;
+        logger.info("width {} height {}",width,height);
 
         this.stage = stage;
 
@@ -66,11 +66,10 @@ public class GameWindow {
      */
     private void setupResources() {
         logger.info("Loading resources");
-
         //We need to load fonts here due to the Font loader bug with spaces in URLs in the CSS files
-        Font.loadFont(getClass().getResourceAsStream("/style/Orbitron-Regular.ttf"),32);
-        Font.loadFont(getClass().getResourceAsStream("/style/Orbitron-Bold.ttf"),32);
-        Font.loadFont(getClass().getResourceAsStream("/style/Orbitron-ExtraBold.ttf"),32);
+        Font.loadFont(getClass().getResourceAsStream("/style/ChunkyDunk.ttf"),32);
+        Font.loadFont(getClass().getResourceAsStream("/style/ChunkyDunkAlias.ttf"),32);
+        Font.loadFont(getClass().getResourceAsStream("/style/ChunkyDunkOutlin.ttf"),32);
     }
 
     /**
@@ -81,9 +80,63 @@ public class GameWindow {
     }
 
     /**
+     * Display the credits scene
+     */
+    public void startCredits() {
+        loadScene(new CreditsScene(this));
+    }
+
+    /**
      * Display the single player challenge
      */
-    public void startChallenge() { loadScene(new ChallengeScene(this)); }
+    public void startChallenge() {
+        loadScene(new ChallengeScene(this));
+        Multimedia.stopBGMusic();
+    }
+
+    /**
+     * Display the multiplayer lobby
+     */
+    public void startMultiplayerLobby() { loadScene(new LobbyScene(this)); Multimedia.StartBGMusic("lobby.mp3");}
+
+    /**
+     * Starts the actual multiplayer game.
+     * @param myName the name of the user playing this game.
+     * @param maxUsers the max amount of users playing this game.
+     */
+    public void startMultiplayer(String myName, int maxUsers) {
+        var multiplayerScene = new MultiplayerScene(this,myName,maxUsers);
+        loadScene(multiplayerScene);
+        Multimedia.StartBGMusic("game.mp3");
+    }
+
+    /**
+     * Display the instructions screen
+     */
+    public void howToPlay() { loadScene(new InstructionsScene(this)); }
+
+    /**
+     * Display the settings screen
+     */
+    public void startSettings() { loadScene(new settingsScene(this)); }
+
+    /**
+     * Display the score screen
+     * @param score the user's score from the game to pass into the score screen.
+     */
+    public void startScore(int score) {
+        loadScene(new ScoresScene(score,this));
+        Multimedia.StartBGMusic("lobby.mp3");
+    }
+
+    /**
+     * Display the score screen for Multiplayer. This shows the leaderboard.
+     * @param leaderboard the leaderboard list from the multiplayer game to pass into the scores scne.
+     */
+    public void startScore(SimpleListProperty<Pair<String,Integer>> leaderboard) {
+        loadScene(new ScoresScene(this,leaderboard));
+        Multimedia.StartBGMusic("lobby.mp3");
+    }
 
     /**
      * Setup the default settings for the stage itself (the window), such as the title and minimum width and height.
