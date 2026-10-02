@@ -3,6 +3,8 @@
 ## **Overview**
 Tetrecs is a comprehensive, network-enabled puzzle game developed in Java. Going beyond a standard logic puzzle, this project demonstrates full-stack desktop application development, from managing local state and UI threading to handling asynchronous multiplayer networking and persistent data storage.
 
+*Built on a university-provided JavaFX game skeleton; the game logic, UI, networking client and multiplayer features are my own implementation. The multiplayer server was university-hosted and may no longer be available.*
+
 ## **Architecture & Core Features**
 *   **Real-Time Networking:** Engineered a complete multiplayer architecture featuring game lobbies, a live chat system, and synchronized client states that broadcast live scores and player eliminations.
 *   **Game Engine & State Management:** Built a robust internal game loop handling complex logic such as piece rotation, spatial validation (rejecting invalid drop locations), dynamic multiplier calculations, and time-based events via an animated countdown timer.
